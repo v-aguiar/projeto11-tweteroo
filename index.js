@@ -39,11 +39,12 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.post("/tweets", (req, res) => {
-  const { username, tweet } = req.body;
+  const { username, avatar, tweet } = req.body;
 
   tweets.push({
     username,
     tweet,
+    avatar,
   });
 
   tweets.length > 0
@@ -51,6 +52,20 @@ app.post("/tweets", (req, res) => {
     : console.log("No tweets");
 
   res.send("OK");
+});
+
+app.get("/tweets", (req, res) => {
+  let tenLastTweets = [];
+
+  for (let i = tweets.length; i > tweets.length - 10; i--) {
+    const currentTweet = tweets[i - 1];
+
+    currentTweet
+      ? tenLastTweets.push(currentTweet)
+      : console.log(chalk.yellowBright.bold("Not found!"));
+  }
+
+  res.send(tenLastTweets);
 });
 
 app.listen(5000, () =>

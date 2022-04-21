@@ -50,7 +50,7 @@
   - [x] Por fim, retornar a mensagem `“OK”` .
 
 - **GET** `/tweets`
-  - [ ] Retornar os **10 últimos tweets** publicados
+  - [x] Retornar os **10 últimos tweets** publicados
     ```jsx
     [
       {
