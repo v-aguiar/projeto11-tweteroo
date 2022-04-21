@@ -12,12 +12,13 @@ app.use(
 );
 
 const users = [];
+const tweets = [];
 
 // let tweet = {
 //   username: "bobesponja",
 //   avatar:
 //     "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-//   tweet: "eu até que gosto do hub... Mas não muito kkkk",
+//   tweet: "Coorre Patrickeee, o hub ta vindoooo! AAAAA!!",
 // };
 
 app.post("/sign-up", (req, res) => {
@@ -33,6 +34,21 @@ app.post("/sign-up", (req, res) => {
     username: username,
     avatar: avatar,
   });
+
+  res.send("OK");
+});
+
+app.post("/tweets", (req, res) => {
+  const { username, tweet } = req.body;
+
+  tweets.push({
+    username,
+    tweet,
+  });
+
+  tweets.length > 0
+    ? tweets.forEach((_tweet) => console.log(_tweet))
+    : console.log("No tweets");
 
   res.send("OK");
 });

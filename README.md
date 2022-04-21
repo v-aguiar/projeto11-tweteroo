@@ -39,15 +39,15 @@
 
 - **POST** `/tweets`
 
-  - [ ] Deve receber (pelo _body_ da _request_), os parâmetros `username` e `tweet`:
+  - [x] Deve receber (pelo _body_ da _request_), os parâmetros `username` e `tweet`:
     ```jsx
     {
     	username: "bobesponja",
       tweet: "eu amo o hub"
     }
     ```
-  - [ ] Salvar esse _tweet_ num array de _tweets_ do servidor.
-  - [ ] Por fim, retornar a mensagem `“OK”` .
+  - [x] Salvar esse _tweet_ num array de _tweets_ do servidor.
+  - [x] Por fim, retornar a mensagem `“OK”` .
 
 - **GET** `/tweets`
   - [ ] Retornar os **10 últimos tweets** publicados
