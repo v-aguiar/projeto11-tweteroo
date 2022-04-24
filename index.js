@@ -2,14 +2,11 @@
 import cors from "cors";
 import chalk from "chalk";
 
+import validateURL from "./utils/validateURL.js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
 
 const users = [];
 const tweets = [];
@@ -18,7 +15,7 @@ const tweets = [];
 //   username: "bobesponja",
 //   avatar:
 //     "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-//   tweet: "Coorre Patrickeee, o hub ta vindoooo! AAAAA!!",
+//   tweet: "Kono Giob Calça Giovanna... ESTOU PRONTO!!!!",
 // };
 
 app.post("/sign-up", (req, res) => {
@@ -28,30 +25,43 @@ app.post("/sign-up", (req, res) => {
     ? users.forEach((user) => console.log(user))
     : console.log("No users");
 
-  // validateAvatarURL(avatar);
+  if (!validateURL(avatar)) {
+    res.status(400).send("⚠ URL inválida!");
+  }
+
+  if (username.length == 0 || avatar.length == 0) {
+    res.status(400).send("⚠ Todos os campos são obrigatórios!");
+  }
 
   users.push({
     username: username,
     avatar: avatar,
   });
 
-  res.send("OK");
+  res.status(201).send("OK");
 });
 
 app.post("/tweets", (req, res) => {
-  const { username, avatar, tweet } = req.body;
+  const { username, tweet } = req.body;
+  const { avatar } = users.find((user) => user.username === username);
 
-  tweets.push({
-    username,
-    tweet,
-    avatar,
-  });
+  const validateData = avatar && username.length > 0 && tweet.length > 0;
 
-  tweets.length > 0
-    ? tweets.forEach((_tweet) => console.log(_tweet))
-    : console.log("No tweets");
+  if (validateData) {
+    tweets.push({
+      username,
+      tweet,
+      avatar,
+    });
+  } else {
+    res.status(400).send("⚠ Todos os campos são obrigatórios!");
+  }
 
-  res.send("OK");
+  if (tweets.length > 0) {
+    tweets.forEach((_tweet) => (_tweet ? console.log(_tweet) : ""));
+  }
+
+  res.status(201).send("OK");
 });
 
 app.get("/tweets", (req, res) => {
@@ -60,9 +70,9 @@ app.get("/tweets", (req, res) => {
   for (let i = tweets.length; i > tweets.length - 10; i--) {
     const currentTweet = tweets[i - 1];
 
-    currentTweet
-      ? tenLastTweets.push(currentTweet)
-      : console.log(chalk.yellowBright.bold("Not found!"));
+    if (currentTweet) {
+      tenLastTweets.push(currentTweet);
+    }
   }
 
   res.send(tenLastTweets);
