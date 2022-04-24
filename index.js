@@ -65,17 +65,27 @@ app.post("/tweets", (req, res) => {
 });
 
 app.get("/tweets", (req, res) => {
-  let tenLastTweets = [];
+  const page = parseInt(req.query.page);
 
-  for (let i = tweets.length; i > tweets.length - 10; i--) {
+  // Validate page value
+  if (!page || page < 1) {
+    res.sendStatus(400).send("⚠ Informe uma página válida!");
+  }
+
+  let tenCurrentTweets = [];
+
+  const loopStart = tweets.length - 10 * (page - 1);
+  const loopEnd = tweets.length - 10 - 10 * (page - 1);
+
+  for (let i = loopStart; i > loopEnd; i--) {
     const currentTweet = tweets[i - 1];
 
     if (currentTweet) {
-      tenLastTweets.push(currentTweet);
+      tenCurrentTweets.push(currentTweet);
     }
   }
 
-  res.send(tenLastTweets);
+  res.send(tenCurrentTweets);
 });
 
 app.get("/tweets/:_username", (req, res) => {
