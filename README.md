@@ -85,4 +85,4 @@
   - [x] Lembre-se de validar se o valor de `page` (query string) foi enviado e tem valor **maior que** 1 e caso contrário, deverá responder com a mensagem “Informe uma página válida!” e com o status code 400 (BAD REQUEST).
 
 - **POST** `/tweets` recebendo username por Header
-  - [ ] Esse endpoint deverá parar de receber o valor de username do body e passar a recebê-lo por meio de um **header** `user`. Esse é um recurso diferente do que vimos até agora (route params e body).
+  - [x] Esse endpoint deverá parar de receber o valor de username do body e passar a recebê-lo por meio de um **header** `user`. Esse é um recurso diferente do que vimos até agora (route params e body).
