@@ -78,6 +78,18 @@ app.get("/tweets", (req, res) => {
   res.send(tenLastTweets);
 });
 
+app.get("/tweets/:_username", (req, res) => {
+  const username = req.params._username;
+
+  let userTweets = tweets.filter((tweet) => tweet.username === username);
+
+  if (userTweets.length === 0) {
+    res.status(404).send("⚠ Usuário não encontrado!");
+  }
+
+  res.send(userTweets);
+});
+
 app.listen(5000, () =>
   console.log(
     chalk.magentaBright.bold(
